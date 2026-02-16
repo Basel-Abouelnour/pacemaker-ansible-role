@@ -1,9 +1,8 @@
 ---
-- name: Create VIP resource with ARP propagation
+- name: Create VIP resource
   ansible.builtin.command: >
     pcs resource create vip ocf:heartbeat:IPaddr2
     ip={{ vip_ip }} cidr_netmask={{ vip_cidr }} nic={{ vip_interface }}
-    arp_interval=10s
     op monitor interval=10s timeout=20s
   run_once: true
 

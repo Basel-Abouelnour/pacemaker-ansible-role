@@ -1,15 +1,44 @@
 ---
-# defaults file for pacemaker
+# ==============================
+# Cluster Configuration
+# ==============================
 
 cluster_name: pacemaker-cluster
-cluster_nodes:
-  - target-1
-  - target-2
+cluster_nodes: "{{ groups['targets'] }}"
+
+hacluster_password: hacluster
+
+# ==============================
+# VIP Configuration
+# ==============================
+
 vip_ip: 192.168.93.200
 vip_cidr: 24
-vip_interface: ens36
+
+# Auto-detect interface (same logic as script)
+vip_interface: "{{ ansible_default_ipv4.interface }}"
+
+# ==============================
+# Apache
+# ==============================
+
 http_port: 80
-hacluster_password: "hacluster"
+
+# ==============================
+# Cluster Behavior (Lab Safe)
+# ==============================
+
 stonith_enabled: false
 quorum_policy: ignore
+
+# ==============================
+# Packages
+# ==============================
+
+pacemaker_packages:
+  - pacemaker
+  - pcs
+  - httpd
+  - resource-agents
+  - fence-agents-all
 
