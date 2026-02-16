@@ -16,7 +16,7 @@ vip_ip: 192.168.93.200
 vip_cidr: 24
 
 # Auto-detect interface (same logic as script)
-vip_interface: "{{ ansible_default_ipv4.interface }}"
+vip_interface: "ens36"
 
 # ==============================
 # Apache
