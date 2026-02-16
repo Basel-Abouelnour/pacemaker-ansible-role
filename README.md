@@ -89,9 +89,15 @@ ansible-playbook deploy-cluster.yml -i hosts.ini
 ```
 
 **Run the Playbook:**
+* This will stop all cluster services, disable autostart, and remove cluster configuration.
 
 ```bash
 ansible-playbook delete-cluster.yml -i hosts.ini
 ```
 
-* This will stop all cluster services, disable autostart, and remove cluster configuration.
+
+## Role Usage
+ > This role is published on Ansible-Galaxy and can be installed using the following command:
+```bash
+	ansible-galaxy role install Basel-Abouelnour.Pacemaker-Cluster-Installation
+```
