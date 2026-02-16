@@ -1,0 +1,13 @@
+---
+- name: Enable and start pcsd
+  ansible.builtin.service:
+    name: pcsd
+    state: started
+    enabled: true
+
+- name: Enable and start httpd
+  ansible.builtin.service:
+    name: httpd
+    state: started
+    enabled: true
+

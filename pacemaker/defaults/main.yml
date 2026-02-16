@@ -1,0 +1,15 @@
+---
+# defaults file for pacemaker
+
+cluster_name: pacemaker-cluster
+cluster_nodes:
+  - target-1
+  - target-2
+vip_ip: 192.168.93.200
+vip_cidr: 24
+vip_interface: ens36
+http_port: 80
+hacluster_password: "hacluster"
+stonith_enabled: false
+quorum_policy: ignore
+

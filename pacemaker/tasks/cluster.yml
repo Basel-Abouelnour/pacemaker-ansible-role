@@ -1,0 +1,50 @@
+---
+- name: Check cluster status
+  ansible.builtin.command: pcs status
+  register: pcs_status
+  failed_when: false
+  changed_when: false
+  run_once: true
+
+- name: Determine if cluster exists
+  ansible.builtin.set_fact:
+    cluster_already_configured: "{{ 'Cluster Status:' in pcs_status.stdout }}"
+  run_once: true
+
+- name: Set hacluster password
+  ansible.builtin.user:
+    name: hacluster
+    password: "{{ hacluster_password | password_hash('sha512') }}"
+
+- name: Authenticate cluster nodes
+  ansible.builtin.command: >
+    pcs host auth {{ cluster_nodes | join(' ') }}
+    -u hacluster -p "{{ hacluster_password }}"
+  run_once: true
+  when: not cluster_already_configured
+
+- name: Setup cluster
+  ansible.builtin.command: >
+    pcs cluster setup {{ cluster_name }} {{ cluster_nodes | join(' ') }}
+  run_once: true
+  when: not cluster_already_configured
+
+- name: Start cluster
+  ansible.builtin.command:
+    cmd: pcs cluster start --all
+  run_once: true
+  when: not cluster_already_configured
+
+- name: Enable cluster at boot
+  ansible.builtin.command:
+    cmd: pcs cluster enable --all
+  run_once: true
+  when: not cluster_already_configured
+
+- name: Set cluster properties
+  ansible.builtin.command:
+    cmd: >
+      pcs property set stonith-enabled={{ stonith_enabled }}
+      no-quorum-policy={{ quorum_policy }}
+  run_once: true
+
