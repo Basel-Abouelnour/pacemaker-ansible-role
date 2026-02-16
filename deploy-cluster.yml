@@ -1,5 +1,0 @@
----
-- hosts: targets
-  become: yes
-  roles:
-    - pacemaker
