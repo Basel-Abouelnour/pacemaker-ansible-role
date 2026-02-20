@@ -1,0 +1,7 @@
+---
+
+- name: Install pacemaker stack packages
+  ansible.builtin.dnf:
+    name: "{{ pacemaker_packages }}"
+    state: present
+

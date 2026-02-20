@@ -1,0 +1,8 @@
+[targets]
+node1 ansible_host=192.168.16.166
+node2 ansible_host=192.168.16.167
+
+[targets:vars]
+ansible_user=root
+ansible_become=true
+

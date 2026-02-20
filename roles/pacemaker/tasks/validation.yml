@@ -1,0 +1,24 @@
+---
+
+- name: Wait for cluster to stabilize
+  ansible.builtin.pause:
+    seconds: 5
+  run_once: true
+
+- name: Get final cluster status
+  ansible.builtin.command: pcs status
+  register: final_cluster_status
+  changed_when: false
+  run_once: true
+
+- name: Display cluster status
+  ansible.builtin.debug:
+    var: final_cluster_status.stdout
+  run_once: true
+
+- name: Fail if cluster is not healthy
+  ansible.builtin.fail:
+    msg: "Cluster is not in a healthy state!"
+  when: "'Online:' not in final_cluster_status.stdout"
+  run_once: true
+

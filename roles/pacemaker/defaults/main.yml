@@ -1,0 +1,52 @@
+---
+# ==============================
+# Cluster Configuration
+# ==============================
+
+cluster_name: pacemaker-cluster
+cluster_nodes: "{{ groups['targets'] }}"
+
+hacluster_password: hacluster
+
+# ==============================
+# VIP Configuration
+# ==============================
+
+vip_ip: 192.168.93.200
+vip_cidr: 24
+
+# Auto-detect interface (same logic as script)
+vip_interface: "ens160"
+
+# ==============================
+# Apache
+# ==============================
+
+http_port: 80
+
+# ==============================
+# Cluster Behavior (Lab Safe)
+# ==============================
+
+stonith_enabled: false
+quorum_policy: ignore
+
+# ==============================
+# Packages
+# ==============================
+
+pacemaker_packages:
+  - pacemaker
+  - pcs
+  - httpd
+  - resource-agents
+  - fence-agents-all
+
+stonith_enabled: false
+
+hacluster_password: >-
+  {{
+    lookup('community.hashi_vault.hashi_vault',
+    'secret=secret/cluster field=hacluster_pass token=hvs.Mwgufz8e6R2MZ0BzkcogUsge url=https://192.168.16.166:8200')
+  }}
+

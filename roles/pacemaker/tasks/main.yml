@@ -1,0 +1,15 @@
+---
+# tasks file for pacemaker
+
+# Phase 1: Prepare nodes (all hosts in parallel)
+- import_tasks: repository.yml
+- import_tasks: packages.yml
+- import_tasks: services.yml
+- import_tasks: firewall.yml
+- import_tasks: apache.yml
+
+# Phase 2: Cluster setup (run once on a single node)
+- import_tasks: cluster.yml
+- import_tasks: resources.yml
+- import_tasks: validation.yml
+

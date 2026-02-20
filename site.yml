@@ -1,0 +1,5 @@
+- hosts: targets
+  become: true
+  roles:
+    - pacemaker
+

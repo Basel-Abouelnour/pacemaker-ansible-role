@@ -1,0 +1,8 @@
+---
+
+- name: Enable High Availability repository
+  ansible.builtin.command:
+    cmd: dnf config-manager --set-enabled highavailability
+  changed_when: false
+  failed_when: false
+

@@ -1,0 +1,15 @@
+---
+- name: Allow High Availability traffic
+  ansible.builtin.firewalld:
+    service: high-availability
+    permanent: yes
+    state: enabled
+    immediate: yes
+
+- name: Allow HTTP
+  ansible.builtin.firewalld:
+    service: http
+    permanent: yes
+    state: enabled
+    immediate: yes
+
