@@ -2,7 +2,7 @@ galaxy_info:
   author: Basel Abouelnour
   description: Role to install pacemaker on a centos environment
   company: Information Technology Institute
-  role_name: pacemaker-ansible-role
+  role_name: Pacemaker-Cluster-Installation
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
