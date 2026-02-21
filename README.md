@@ -1,8 +1,9 @@
+
 # pacemaker-ansible-role
 
 ## Overview
 
-This Ansible role deploys a **Pacemaker HA cluster** on CentOS 9 stream environment with 2 nodes.
+This Ansible role deploys a **Pacemaker HA cluster** on CentOS 9 stream environment with 2 nodes.  
 Pacemaker is a **high-availability cluster manager** that monitors resources and automatically moves them to healthy nodes in case of failure.
 
 In this role, **Apache HTTP Server (`httpd`)** is used as an example resource, colocated with a **Virtual IP (VIP)** to provide a simple HA web service in an active / passive setup.
@@ -34,7 +35,7 @@ target-2
 [targets]
 target-1
 target-2
-```
+````
 
 ---
 
@@ -53,6 +54,8 @@ target-2
 
 ```bash
 ansible-playbook deploy-cluster.yml -i hosts.ini
+# test the results
+curl http://VIP
 ```
 
 * This will:
@@ -60,7 +63,6 @@ ansible-playbook deploy-cluster.yml -i hosts.ini
   1. Install & enable Pacemaker requirements on both targets.
   2. Configure a two-node cluster with a VIP.
   3. Create `httpd` as a managed resource colocated with the VIP.
-
 ---
 
 ## Delete the Cluster
@@ -89,15 +91,58 @@ ansible-playbook deploy-cluster.yml -i hosts.ini
 ```
 
 **Run the Playbook:**
-* This will stop all cluster services, disable autostart, and remove cluster configuration.
 
 ```bash
 ansible-playbook delete-cluster.yml -i hosts.ini
 ```
 
+* This will stop all cluster services, disable autostart, and remove cluster configuration.
+
+---
+
+## Failure Test Playbook
+
+**Purpose:** Stop `httpd` on `target-1` to validate that Pacemaker moves the resource to `target-2`.
+
+**Playbook (`test-httpd-failover.yml`):**
+
+```yaml
+- name: Test Apache Failover in Pacemaker Cluster
+  hosts: target-1
+  become: yes
+  gather_facts: yes
+  tasks:
+
+    - name: Stop httpd on target-1 to simulate failure
+      service:
+        name: httpd
+        state: stopped
+
+    - name: Wait for cluster to detect failure
+      pause:
+        seconds: 15
+```
+
+**Run the Playbook:**
+
+```bash
+ansible-playbook test-failover.yml -i hosts.ini
+# test the results again
+# notice that the resource moved to the second node
+curl http://VIP
+```
+
+---
 
 ## Role Usage
- > This role is published on Ansible-Galaxy and can be installed using the following command:
+
+> This role is published on Ansible-Galaxy and can be installed using:
+
 ```bash
-	ansible-galaxy role install Basel-Abouelnour.Pacemaker-Cluster-Installation
+ansible-galaxy role install Basel-Abouelnour.Pacemaker-Cluster-Installation
 ```
+
+---
+
+
+
