@@ -1,0 +1,11 @@
+---
+# Deploy Pacemaker cluster status web page
+
+- name: Deploy cluster web page template
+  template:
+    src: index.html.j2
+    dest: /var/www/html/index.html
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart httpd

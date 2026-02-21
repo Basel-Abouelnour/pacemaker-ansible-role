@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pacemaker Cluster Web Page</title>
+</head>
+<body>
+    <h1>Pacemaker Cluster Web Page</h1>
+    <p><strong>Node Name:</strong> {{ ansible_hostname }}</p>
+    <p><strong>Node IP:</strong> {{ ansible_default_ipv4.address }}</p>
+</body>
+</html>
