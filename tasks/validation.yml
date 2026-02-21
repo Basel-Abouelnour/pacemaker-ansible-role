@@ -2,7 +2,7 @@
 
 - name: Wait for cluster to stabilize
   ansible.builtin.pause:
-    seconds: 5
+    seconds: 20
   run_once: true
 
 - name: Get final cluster status
